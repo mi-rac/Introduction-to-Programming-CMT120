@@ -1,0 +1,30 @@
+image: nikolaik/python-nodejs
+
+cache:
+  paths:
+    - node_modules/
+    - .cache/pip
+
+test_js:
+  tags:
+    - comsc-ci
+  script:
+    - npm install
+    - npm run test-js-gitlab
+  allow_failure: true
+  artifacts:
+    when: always
+    reports:
+      junit: js-test.xml
+
+test_py:
+  tags:
+    - comsc-ci
+  script:
+    - pip install pytest
+    - npm run test-py
+  allow_failure: true
+  artifacts:
+    when: always
+    reports:
+      junit: py-test.xml
