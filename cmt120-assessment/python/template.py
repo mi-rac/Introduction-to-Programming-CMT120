@@ -89,7 +89,6 @@ def missingComment(filename):
     return res
 
 
-
 # Exercise 8
 def consistentLineLength(filename, length=20):
     from textwrap import wrap
@@ -104,7 +103,20 @@ def knight(start, end, moves):
 
 # Exercise 10
 def warOfSpecies(environment):
-    return None
+    t = [[[] for x in range(len(environment[0]))] for y in range(len(environment))]
+
+    for j in range(len(environment)):
+        for i in range(len(environment[0])):
+            for x in [-1, 0 , 1]:
+                for y in [-1, 0 , 1]:
+                    if (0 <= (j+y) < len(environment)) and (0 <= (i+x) < len(environment[0])) and not (x == 0 and y == 0):
+                        t[j][i].append(environment[j+y][i+x])
+                    continue
+            print(j, i, t[j][i])
+
 
 if __name__ == '__main__':
-    print(consistentLineLength("test_data/text1.txt"))
+
+    warOfSpecies(["XX......",
+                  "XX....O.",
+                  ".....OOO"])
