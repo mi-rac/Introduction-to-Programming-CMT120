@@ -103,20 +103,57 @@ def knight(start, end, moves):
 
 # Exercise 10
 def warOfSpecies(environment):
-    t = [[[] for x in range(len(environment[0]))] for y in range(len(environment))]
+    y_max = len(environment)
+    x_max = len(environment[0])
 
-    for j in range(len(environment)):
-        for i in range(len(environment[0])):
-            for x in [-1, 0 , 1]:
-                for y in [-1, 0 , 1]:
-                    if (0 <= (j+y) < len(environment)) and (0 <= (i+x) < len(environment[0])) and not (x == 0 and y == 0):
-                        t[j][i].append(environment[j+y][i+x])
-                    continue
-            print(j, i, t[j][i])
+    def neighbours_matrix(environment):
+        neighbours_matrix = [[[] for x in range(x_max)] for y in range(y_max)]
+        for j in range(y_max):
+            for i in range(x_max):
+                for x in [-1, 0 , 1]:
+                    for y in [-1, 0 , 1]:
+                        if (0 <= (j+y) < y_max) and (0 <= (i+x) < x_max) and not (x == 0 and y == 0):
+                            neighbours_matrix[j][i].append(environment[j+y][i+x])
+                        continue
+        return neighbours_matrix
+
+    def rule(item, neighbours):
+        num = {}
+        num['X'] = num_x = (neighbours.count('X'), 'X')
+        num['O'] = num_o = (neighbours.count('O'), 'O')
+        num['.'] = num_empty = (neighbours.count('.'), '.')
+
+        if item == ".":
+            if (num_x != num_o) and (max(num_x, num_o)[0] >= 2):
+                return max(num_x, num_o)[1]
+            else:
+                return item
+        elif num_x[0] + num_o[0] > 6:
+            return '.'
+        elif num[item][0] < 3:
+            return '.'
+        elif num[item][0] < num[('O', 'X')[item == 'O']][0]:
+            return '.'
+        else:
+            return item
+
+    def next_frame(environment):
+        new_matrix = [[None for x in range(x_max)] for y in range(y_max)]
+        neighbours = neighbours_matrix(environment)
+        for j in range(y_max):
+            for i in range(x_max):
+                new_matrix[j][i] = rule(environment[j][i], neighbours[j][i])
+            new_matrix[j] = ''.join(new_matrix[j])
+        return new_matrix
+
+    return next_frame(environment)
+
 
 
 if __name__ == '__main__':
 
-    warOfSpecies(["XX......",
-                  "XX....O.",
-                  ".....OOO"])
+    t = warOfSpecies(["XX......",
+                      "XX....O.",
+                      ".....OOO"])
+    for line in t:
+        print(line)
