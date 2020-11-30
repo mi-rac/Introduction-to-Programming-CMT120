@@ -98,7 +98,85 @@ def consistentLineLength(filename, length=20):
 
 # Exercise 9
 def knight(start, end, moves):
-    return None
+
+    class Position:
+        def __init__(self, position_x='a1', position_y=1):
+            if type(position_x) == str:
+                self.x = ord(position_x[0]) - ord('a')
+                self.y = int(position_x[1]) - 1
+            elif type(position_x) == int:
+                self.x = position_x
+                self.y = position_y
+            else:
+                raise ValueError("Position objects are initialised with one string of the form a2 or two integers.")
+
+        def __str__(self):
+            return chr(self.x + ord('a')) + str(self.y + 1)
+
+        def __eq__(self, other):
+            return str(self) == str(other)
+
+        def knight_moves(self):
+            _nextList = []
+            for i in (0, 1):
+                for j in (-1, 1):
+                    for k in (-1, 1):
+                        dx = (1, 2)[i] * j
+                        dy = (1, 2)[1-i] * k
+                        new_x = self.x + dx
+                        new_y = self.y + dy
+                        if (0 <= new_x < 8) and (0 <= new_y < 8):
+                            _nextList.append(Position(new_x, new_y))
+            return _nextList
+
+    class Board:
+        def __init__(self):
+            self.board = [[None for x in range(8)] for y in range(8)]
+
+        def __str__(self):
+            text = ''
+            for line in self.board:
+                txt_line = ''
+                for word in line:
+                    txt_line += str(word).center(6)
+                text += '[' + txt_line + ']\n'
+            return text
+
+        def clear(self):
+            self.board = [[None for x in range(8)] for y in range(8)]
+
+        def fill(self, position, text):
+            self.board[position.x][position.y] = text
+
+        def get_value(self, position):
+            return self.board[position.x][position.y]
+
+        def number_steps(self, start, end):
+            def next_step(step=0):
+                for x in range(8):
+                    for y in range(8):
+                        if self.board[x][y] == step:
+                            current = Position(x, y)
+                            for pos in current.knight_moves():
+                                if self.get_value(pos) == None:
+                                    self.fill(pos, step + 1)
+
+            self.clear()
+            self.fill(start, 0)
+            step = 0
+            while self.get_value(end) == None:
+                next_step(step)
+                step += 1
+            return self.get_value(end)
+
+    board = Board()
+    start = Position(start)
+    end = Position(end)
+
+    res = board.number_steps(start, end)
+    
+    return res <= moves
+
 
 
 # Exercise 10
@@ -152,8 +230,4 @@ def warOfSpecies(environment):
 
 if __name__ == '__main__':
 
-    t = warOfSpecies(["XX......",
-                      "XX....O.",
-                      ".....OOO"])
-    for line in t:
-        print(line)
+    print(knight('d4', 'h8', 4))
