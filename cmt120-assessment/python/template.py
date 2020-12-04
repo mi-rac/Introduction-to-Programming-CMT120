@@ -174,9 +174,8 @@ def knight(start, end, moves):
     end = Position(end)
 
     res = board.number_steps(start, end)
-    
-    return res <= moves
 
+    return res <= moves
 
 
 # Exercise 10
@@ -185,13 +184,13 @@ def warOfSpecies(environment):
     x_max = len(environment[0])
 
     def neighbours_matrix(environment):
-        neighbours_matrix = [[[] for x in range(x_max)] for y in range(y_max)]
+        neighbours_matrix = [['' for x in range(x_max)] for y in range(y_max)]
         for j in range(y_max):
             for i in range(x_max):
                 for x in [-1, 0 , 1]:
                     for y in [-1, 0 , 1]:
                         if (0 <= (j+y) < y_max) and (0 <= (i+x) < x_max) and not (x == 0 and y == 0):
-                            neighbours_matrix[j][i].append(environment[j+y][i+x])
+                            neighbours_matrix[j][i] += environment[j+y][i+x]
                         continue
         return neighbours_matrix
 

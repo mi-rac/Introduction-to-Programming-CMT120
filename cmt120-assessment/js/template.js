@@ -1,6 +1,7 @@
 // Exercise 1
 function reduceFraction(num, den) {
-    return undefined;
+    const res = num / den;
+    return res;
 }
 
 // Exercise 2
@@ -47,7 +48,7 @@ function knight(start, end, moves) {
 function warOfSpecies(environment) {
     return undefined
 }
-
+/*
 module.exports = {
     reduceFraction: reduceFraction,
     isMagicDate: isMagicDate,
@@ -59,4 +60,4 @@ module.exports = {
     consistentLineLength: consistentLineLength,
     knight: knight,
     warOfSpecies: warOfSpecies
-}
+}*/
