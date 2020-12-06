@@ -72,7 +72,7 @@ def test_morse_code():
 
 
 def test_int_2_text():
-    assert int2Text(142) == "one hundred fourty two"
+    assert int2Text(142) == "one hundred forty two"
     assert int2Text(300) == "three hundred"
     assert int2Text(16) == "sixteen"
     assert int2Text(912) == "nine hundred twelve"
